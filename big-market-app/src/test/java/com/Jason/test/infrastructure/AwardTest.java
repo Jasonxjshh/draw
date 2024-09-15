@@ -28,6 +28,5 @@ public class AwardTest {
     public void test_queryAwardList() {
         List<Award> awards = awardDao.queryAwardList();
         awards.forEach(System.out::println);
-
     }
 }

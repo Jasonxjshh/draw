@@ -1,6 +1,10 @@
 package com.Jason.infrastructure.persistent.dao;
 
+import com.Jason.domain.strategy.model.entity.StrategyAwardEntity;
+import com.Jason.infrastructure.persistent.po.StrategyAward;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @Author: Jason
@@ -9,4 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface IStrategyAwardDao {
+    List<StrategyAward> queryStrategyAwardByStrategyId(Long strategyId);
 }

@@ -39,10 +39,9 @@
 
     <developers>
         <developer>
-            <name>xiaofuge</name>
-            <email>184172133@qq.com</email>
-            <organization>fuzhengwei</organization>
-            <organizationUrl>https://github.com/fuzhengwei</organizationUrl>
+            <name>Jason</name>
+            <email>2270620101@qq.com</email>
+            <organization>Jason</organization>
         </developer>
     </developers>
 
@@ -135,6 +134,11 @@
                 <groupId>com.Jason</groupId>
                 <artifactId>big-market-trigger</artifactId>
                 <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>3.23.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
