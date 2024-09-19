@@ -1,14 +1,17 @@
 package com.Jason.infrastructure.persistent.repository;
 
 import com.Jason.domain.strategy.model.entity.StrategyAwardEntity;
+import com.Jason.domain.strategy.model.entity.StrategyEntity;
+import com.Jason.domain.strategy.model.entity.StrategyRuleEntity;
 import com.Jason.domain.strategy.repository.IStrategyRepository;
 import com.Jason.infrastructure.persistent.dao.IStrategyAwardDao;
+import com.Jason.infrastructure.persistent.dao.IStrategyDao;
+import com.Jason.infrastructure.persistent.dao.IStrategyRulesDao;
+import com.Jason.infrastructure.persistent.po.Strategy;
 import com.Jason.infrastructure.persistent.po.StrategyAward;
+import com.Jason.infrastructure.persistent.po.StrategyRule;
 import com.Jason.infrastructure.persistent.redis.IRedisService;
 import com.Jason.types.common.Constants;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RMap;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -30,10 +33,16 @@ public class StrategyRepository implements IStrategyRepository {
     private IStrategyAwardDao strategyAwardDao;
 
     @Resource
+    private IStrategyRulesDao strategyRulesDao;
+
+    @Resource
+    private IStrategyDao strategyDao;
+
+    @Resource
     private IRedisService redisService;
 
     @Override
-    public List<StrategyAwardEntity> assembleLotteryStrategy(Long strategyId) {
+    public List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId) {
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId;
         List<StrategyAwardEntity>  strategyAwardEntities = redisService.getValue(cacheKey);
         if (strategyAwardEntities != null && !strategyAwardEntities.isEmpty()) return strategyAwardEntities;
@@ -61,21 +70,61 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
-    public void storeStrategyAwardSearchRateTables(Long strategyId, BigDecimal rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTable) {
+    public StrategyEntity queryStrategyEntityByStrategyId(Long strategyId) {
+        String cacheKey = Constants.RedisKey.STRATEGY_KEY + strategyId;
+        StrategyEntity strategyEntity = redisService.getValue(cacheKey);
+        if (strategyEntity != null) return strategyEntity;
+        Strategy strategy = strategyDao.queryStrategyByStrategyId(strategyId);
+        strategyEntity = StrategyEntity.builder()
+                .strategyId(strategy.getStrategyId())
+                .strategyDesc(strategy.getStrategyDesc())
+                .ruleModels(strategy.getRuleModels())
+                .build();
+        redisService.setValue(cacheKey, strategyEntity);
+        return strategyEntity;
+    }
 
-        redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+strategyId, rateRange.intValue());
+    @Override
+    public StrategyRuleEntity queryStrategyRule(Long strategyId, String ruleModel) {
+        String cacheKey = Constants.RedisKey.STRATEGY_RULE_KEY + strategyId + "_" + ruleModel;
+        StrategyRuleEntity strategyRuleEntity = redisService.getValue(cacheKey);
+        if (strategyRuleEntity != null) return strategyRuleEntity;
+        StrategyRule strategyRule = strategyRulesDao.queryStrategyRule(strategyId, ruleModel);
+        if (strategyRule != null) {
+            strategyRuleEntity = StrategyRuleEntity.builder()
+                    .strategyId(strategyRule.getStrategyId())
+                    .awardId(strategyRule.getAwardId())
+                    .ruleType(strategyRule.getRuleType())
+                    .ruleModel(strategyRule.getRuleModel())
+                    .ruleValue(strategyRule.getRuleValue())
+                    .ruleDesc(strategyRule.getRuleDesc())
+                    .build();
+            redisService.setValue(cacheKey, strategyRuleEntity);
+        }
+        return strategyRuleEntity;
+    }
 
-        Map<Integer, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY+strategyId);
+    @Override
+    public void storeStrategyAwardSearchRateTables(String key, BigDecimal rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTable) {
+
+        redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+key, rateRange.intValue());
+
+        Map<Integer, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY+key);
         cacheRateTable.putAll(shuffleStrategyAwardSearchRateTable);
     }
 
     @Override
-    public int getRateRang(Long strategyId) {
-        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+strategyId);
+    public int getRateRange(Long strategyId) {
+        return getRateRange(String.valueOf(strategyId));
     }
 
     @Override
-    public Integer getStrategyAwardAssemble(Long strategyId, int rateKey) {
-        return redisService.getFromMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY+strategyId, rateKey);
+    public int getRateRange(String key) {
+        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+key);
+    }
+
+    @Override
+    public Integer getStrategyAwardAssemble(String key, int rateKey) {
+        return redisService.getFromMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY+key, rateKey);
     }
 }

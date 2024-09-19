@@ -1,5 +1,6 @@
 package com.Jason.infrastructure.persistent.dao;
 
+import com.Jason.infrastructure.persistent.po.StrategyRule;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,4 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface IStrategyRulesDao {
+    StrategyRule queryStrategyRule(Long strategyId, String ruleModel);
 }

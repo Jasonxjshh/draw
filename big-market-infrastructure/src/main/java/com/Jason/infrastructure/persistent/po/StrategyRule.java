@@ -10,7 +10,7 @@ import java.util.Date;
  * @Description: 策略规则表
  */
 @Data
-public class StrategyRules {
+public class StrategyRule {
     /** 自增ID */
     private Long id;
     /** 抽奖策略ID */

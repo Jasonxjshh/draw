@@ -1,7 +1,9 @@
 package com.Jason.test.domain;
 
 import com.Jason.domain.strategy.service.armory.IStrategyArmory;
+import com.Jason.domain.strategy.service.armory.StrategyArmoryDispatch;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,12 +22,11 @@ import javax.annotation.Resource;
 public class StrategyArmoryTest {
 
     @Resource
-    private IStrategyArmory strategyArmory;
+    private StrategyArmoryDispatch strategyArmory;
 
-
-    @Test
+    @Before
     public void test_assembleLotteryStrategy(){
-        strategyArmory.assembleLotteryStrategy(100002L);
+        strategyArmory.assembleLotteryStrategy(100001L);
 
     }
 
