@@ -15,9 +15,18 @@
     </resultMap>
 
 
-    <select id="queryStrategyRule" resultType="com.Jason.infrastructure.persistent.po.StrategyRule" resultMap="dataMap">
+    <select id="queryStrategyRule" parameterType="com.Jason.infrastructure.persistent.po.StrategyRule" resultMap="dataMap">
         select * from strategy_rule
         where strategy_id = #{strategyId}
+        and rule_model = #{ruleModel}
+    </select>
+
+    <select id="queryStrategyRuleValue" parameterType="com.Jason.infrastructure.persistent.po.StrategyRule" resultType="java.lang.String">
+        select rule_value from strategy_rule
+        where strategy_id = #{strategyId}
+        <if test="awardId != null">
+            and award_id = #{awardId}
+        </if>
         and rule_model = #{ruleModel}
     </select>
 </mapper>

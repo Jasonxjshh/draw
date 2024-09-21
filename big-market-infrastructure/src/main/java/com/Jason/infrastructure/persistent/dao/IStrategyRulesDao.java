@@ -11,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IStrategyRulesDao {
     StrategyRule queryStrategyRule(Long strategyId, String ruleModel);
+
+    String queryStrategyRuleValue(StrategyRule strategyRule);
 }
