@@ -36,7 +36,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         //权重策略配置-适用于rule_weight 权重规则配置
         StrategyEntity strategyEntity = strategyRepository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight = strategyEntity.getRuleWeight();
-        if (null == strategyEntity) return true;
+        if (null == ruleWeight) return true;
         StrategyRuleEntity strategyRuleEntity = strategyRepository.queryStrategyRule(strategyId, ruleWeight);
         if (strategyRuleEntity == null) {
             throw new AppException(ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getCode(), ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getInfo());

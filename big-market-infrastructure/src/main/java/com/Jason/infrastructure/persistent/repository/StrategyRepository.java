@@ -3,6 +3,7 @@ package com.Jason.infrastructure.persistent.repository;
 import com.Jason.domain.strategy.model.entity.StrategyAwardEntity;
 import com.Jason.domain.strategy.model.entity.StrategyEntity;
 import com.Jason.domain.strategy.model.entity.StrategyRuleEntity;
+import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.Jason.domain.strategy.repository.IStrategyRepository;
 import com.Jason.infrastructure.persistent.dao.IStrategyAwardDao;
 import com.Jason.infrastructure.persistent.dao.IStrategyDao;
@@ -12,6 +13,7 @@ import com.Jason.infrastructure.persistent.po.StrategyAward;
 import com.Jason.infrastructure.persistent.po.StrategyRule;
 import com.Jason.infrastructure.persistent.redis.IRedisService;
 import com.Jason.types.common.Constants;
+import com.Jason.types.exception.AppException;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -111,6 +113,18 @@ public class StrategyRepository implements IStrategyRepository {
         strategyRule.setAwardId(awardId);
         strategyRule.setRuleModel(ruleModel);
         return strategyRulesDao.queryStrategyRuleValue(strategyRule);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        String ruleModels = strategyAwardDao.queryStrategyAwardRuleModel(strategyAward);
+        if (ruleModels != null) return StrategyAwardRuleModelVO.builder().ruleModel(ruleModels).build();
+        else {
+            throw new AppException("策略配置错误");
+        }
     }
 
     @Override
