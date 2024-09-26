@@ -1,15 +1,14 @@
-package com.Jason.domain.strategy.service.raffle;
+package com.Jason.domain.strategy.service;
 
 import com.Jason.domain.strategy.model.entity.RaffleAwardEntity;
 import com.Jason.domain.strategy.model.entity.RaffleFactorEntity;
 import com.Jason.domain.strategy.model.entity.RuleActionEntity;
-import com.Jason.domain.strategy.model.entity.StrategyEntity;
 import com.Jason.domain.strategy.model.vo.RuleLogicCheckTypeVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.Jason.domain.strategy.repository.IStrategyRepository;
-import com.Jason.domain.strategy.service.IRaffleStrategy;
 import com.Jason.domain.strategy.service.armory.IStrategyDispatch;
-import com.Jason.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
+import com.Jason.domain.strategy.service.rule.chain.ILogicChain;
+import com.Jason.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import com.Jason.types.enums.ResponseCode;
 import com.Jason.types.exception.AppException;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +30,9 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
     @Resource
     private IStrategyDispatch strategyDispatch;
 
+    @Resource
+    private DefaultChainFactory chainFactory;
+
 
     @Override
     public  RaffleAwardEntity performRaffle(RaffleFactorEntity raffleFactor) {
@@ -41,36 +43,38 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
             throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
         }
 
-        //2. 策略查询
-        StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
+//        //2. 策略查询
+//        StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
+//
+//        //3. 抽奖前 ---- 规则过滤
+//        if (strategyEntity.getRuleModels() != null){
+//            RuleActionEntity<RuleActionEntity.RaffleBeforeEntity> raffleBeforeRuleAction = this.doCheckRaffleBeforeLogic(
+//                    raffleFactor, strategyEntity.ruleModels());
+//            if (RuleLogicCheckTypeVO.TAKE_OVER.getCode().equals(raffleBeforeRuleAction.getCode())){
+//
+//                //如果是被黑名单接管的话先执行黑名单规则
+//                if (DefaultLogicFactory.LogicModel.RULE_BLACKLIST.getCode().equals(raffleBeforeRuleAction.getRuleModel())){
+//                    return RaffleAwardEntity.builder()
+//                            .awardId(raffleBeforeRuleAction.getData().getAwardId())
+//                            .build();
+//                } else if (DefaultLogicFactory.LogicModel.RULE_WIGHT.getCode().equals(raffleBeforeRuleAction.getRuleModel())) {
+//                    Integer randomAwardId = strategyDispatch.getRandomAwardId(strategyId, raffleBeforeRuleAction.getData().getRuleWeightValueKey());
+//                    return RaffleAwardEntity.builder()
+//                            .awardId(randomAwardId)
+//                            .build();
+//                }
+//            }
+//        }
 
-        //3. 抽奖前 ---- 规则过滤
-        if (strategyEntity.getRuleModels() != null){
-            RuleActionEntity<RuleActionEntity.RaffleBeforeEntity> raffleBeforeRuleAction = this.doCheckRaffleBeforeLogic(
-                    raffleFactor, strategyEntity.ruleModels());
-            if (RuleLogicCheckTypeVO.TAKE_OVER.getCode().equals(raffleBeforeRuleAction.getCode())){
+        // 将代码进行重构, 以责任链的方式进行
+        ILogicChain logicChain = chainFactory.openLogicChain(strategyId);
+        Integer awardId = logicChain.logic(userId, strategyId);
 
-                //如果是被黑名单接管的话先执行黑名单规则
-                if (DefaultLogicFactory.LogicModel.RULE_BLACKLIST.getCode().equals(raffleBeforeRuleAction.getRuleModel())){
-                    return RaffleAwardEntity.builder()
-                            .awardId(raffleBeforeRuleAction.getData().getAwardId())
-                            .build();
-                } else if (DefaultLogicFactory.LogicModel.RULE_WIGHT.getCode().equals(raffleBeforeRuleAction.getRuleModel())) {
-                    Integer randomAwardId = strategyDispatch.getRandomAwardId(strategyId, raffleBeforeRuleAction.getData().getRuleWeightValueKey());
-                    return RaffleAwardEntity.builder()
-                            .awardId(randomAwardId)
-                            .build();
-                }
-            }
-        }
-
-
-        //4. 正常抽奖流程
-        Integer awardId = strategyDispatch.getRandomAwardId(strategyId);
 
         //5. 抽奖中 ---- 规则过滤
         //6. 查询奖品的抽奖规则（抽奖中，抽奖后）
         StrategyAwardRuleModelVO strategyAwardRuleModelVO = repository.queryStrategyAwardRuleModel(strategyId, awardId);
+
         RuleActionEntity<RuleActionEntity.RaffleCenterEntity> raffleCenterRuleAction = this.doCheckRaffleCenterLogic(
                 RaffleFactorEntity.builder()
                         .userId(userId)
