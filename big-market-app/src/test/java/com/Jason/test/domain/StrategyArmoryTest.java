@@ -34,11 +34,12 @@ public class StrategyArmoryTest {
     public void test_getRandomAwardId(){
         for (int i = 0; i < 10; i++) {
             log.info("测试结果: 第{}轮", i+1);
-            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100002L));
-            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100002L));
-            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100002L));
+            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100001L));
+            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100001L));
+            log.info("测试结果: {} - 奖品ID值", strategyArmory.getRandomAwardId(100001L));
         }
 
     }
+
 
 }
