@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  * @Date: 2024-09-19  14:42
  * @Description: 抽奖策略抽象类
  */
-public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
+public abstract class AbstractRaffleStrategy implements IRaffleStrategy, IRaffleStock{
     private static final Logger log = LoggerFactory.getLogger(AbstractRaffleStrategy.class);
     // 策略仓储服务 -> domain层像一个大厨，仓储层提供米面粮油
     @Resource

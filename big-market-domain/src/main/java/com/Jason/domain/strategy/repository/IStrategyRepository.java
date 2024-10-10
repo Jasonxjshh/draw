@@ -5,6 +5,7 @@ import com.Jason.domain.strategy.model.entity.StrategyEntity;
 import com.Jason.domain.strategy.model.entity.StrategyRuleEntity;
 import com.Jason.domain.strategy.model.vo.RuleTreeVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.Jason.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -39,4 +40,14 @@ public interface IStrategyRepository {
     StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId);
 
     RuleTreeVO queryRuleTreeVOByTreeId(String treeLock);
+
+    void cacheStrategyAwardCount(String cacheKey, Integer awardCount);
+
+    Boolean subtractionAwardStock(String cacheKey);
+
+    void awardStockConsumeSendQueue(StrategyAwardStockKeyVO build);
+
+    StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException;
+
+    void updateStrategyAwardStock(Long strategyId, Integer awardId);
 }

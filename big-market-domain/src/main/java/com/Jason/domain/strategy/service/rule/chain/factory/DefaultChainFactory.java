@@ -33,14 +33,14 @@ public class DefaultChainFactory {
         StrategyEntity strategy = repository.queryStrategyEntityByStrategyId(strategyId);
         String[] ruleModels = strategy.ruleModels();
         if (ruleModels == null || ruleModels.length == 0){
-            return logicChainMap.get("default");
+            return logicChainMap.get("rule_default");
         }
         ILogicChain logicChain = logicChainMap.get(ruleModels[0]);
         ILogicChain current = logicChain;
         for (int i = 1; i < ruleModels.length; i++) {
             current = current.appendNext(logicChainMap.get(ruleModels[i]));
         }
-        current.appendNext(logicChainMap.get("default"));
+        current.appendNext(logicChainMap.get("rule_default"));
         return logicChain;
     }
 

@@ -6,6 +6,7 @@ import com.Jason.domain.strategy.model.entity.RuleMatterEntity;
 import com.Jason.domain.strategy.model.vo.RuleLogicCheckTypeVO;
 import com.Jason.domain.strategy.model.vo.RuleTreeVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.Jason.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import com.Jason.domain.strategy.service.AbstractRaffleStrategy;
 import com.Jason.domain.strategy.service.rule.chain.ILogicChain;
 import com.Jason.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
@@ -13,6 +14,7 @@ import com.Jason.domain.strategy.service.rule.filter.ILogicFilter;
 import com.Jason.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import com.Jason.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import com.Jason.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
+import com.Jason.types.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+
 
 
 
@@ -53,4 +56,15 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         IDecisionTreeEngine treeEngine = treeFactory.openLogicTree(ruleTreeVO);
         return treeEngine.process(userId, strategyId, awardId);
     }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId, awardId);
+    }
+
 }

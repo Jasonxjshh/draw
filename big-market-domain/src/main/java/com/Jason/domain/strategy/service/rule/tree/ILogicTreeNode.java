@@ -8,5 +8,5 @@ import com.Jason.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
  * @Description:
  */
 public interface ILogicTreeNode {
-    DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId);
+    DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue);
 }
