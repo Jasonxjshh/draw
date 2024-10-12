@@ -9,6 +9,7 @@ public class Constants {
     public static final String UNDER_LINE = "_";
 
     public static class RedisKey {
+        public static final String STRATEGY_AWARD_LIST_KEY = "big_market_strategy_award_list_key_";
         public static String STRATEGY_AWARD_KEY = "big_market_strategy_award_key_";
         public static String STRATEGY_RATE_TABLE_KEY = "big_market_strategy_rate_table_key_";
         public static String STRATEGY_RATE_RANGE_KEY = "big_market_strategy_rate_range_key_";

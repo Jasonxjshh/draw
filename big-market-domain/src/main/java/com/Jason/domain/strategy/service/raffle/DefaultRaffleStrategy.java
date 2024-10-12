@@ -3,11 +3,14 @@ package com.Jason.domain.strategy.service.raffle;
 import com.Jason.domain.strategy.model.entity.RaffleFactorEntity;
 import com.Jason.domain.strategy.model.entity.RuleActionEntity;
 import com.Jason.domain.strategy.model.entity.RuleMatterEntity;
+import com.Jason.domain.strategy.model.entity.StrategyAwardEntity;
 import com.Jason.domain.strategy.model.vo.RuleLogicCheckTypeVO;
 import com.Jason.domain.strategy.model.vo.RuleTreeVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import com.Jason.domain.strategy.service.AbstractRaffleStrategy;
+import com.Jason.domain.strategy.service.IRaffleAward;
+import com.Jason.domain.strategy.service.IRaffleStock;
 import com.Jason.domain.strategy.service.rule.chain.ILogicChain;
 import com.Jason.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import com.Jason.domain.strategy.service.rule.filter.ILogicFilter;
@@ -32,7 +35,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleStock, IRaffleAward {
 
 
 
@@ -67,4 +70,8 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         repository.updateStrategyAwardStock(strategyId, awardId);
     }
 
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId) {
+        return repository.queryStrategyAwardList(strategyId);
+    }
 }

@@ -50,4 +50,6 @@ public interface IStrategyRepository {
     StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException;
 
     void updateStrategyAwardStock(Long strategyId, Integer awardId);
+
+    StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
 }
