@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @Author: Jason
  * @Date: 2024/10/17 16:44
- * @Description:
+ * @Description: 抽奖活动单 持久化对象
  */
 @Data
 public class RaffleActivityOrder {
@@ -20,6 +20,11 @@ public class RaffleActivityOrder {
      * 用户ID
      */
     private String userId;
+
+    /**
+     * sku
+     */
+    private Long sku;
 
     /**
      * 活动ID
@@ -47,9 +52,29 @@ public class RaffleActivityOrder {
     private Date orderTime;
 
     /**
-     * 订单状态（not_used、used、expire）
+     * 总次数
+     */
+    private Integer totalCount;
+
+    /**
+     * 日次数
+     */
+    private Integer dayCount;
+
+    /**
+     * 月次数
+     */
+    private Integer monthCount;
+
+    /**
+     * 订单状态
      */
     private String state;
+
+    /**
+     * 业务仿重ID - 外部透传的，确保幂等
+     */
+    private String outBusinessNo;
 
     /**
      * 创建时间
@@ -60,6 +85,7 @@ public class RaffleActivityOrder {
      * 更新时间
      */
     private Date updateTime;
+
 
 
 }
