@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * @author Fuzhengwei bugstack.cn @小傅哥
+ * @author Jason
  * @description 抽奖活动单Dao
  * @create 2024-03-09 10:08
  */
@@ -20,7 +20,7 @@ public interface IRaffleActivityOrderDao {
     @DBRouter(key = "userId")
     void insert(RaffleActivityOrder raffleActivityOrder);
 
-    @DBRouter
+    @DBRouter(key = "userId")
     List<RaffleActivityOrder> queryRaffleActivityOrderByUserId(String userId);
 
 }
