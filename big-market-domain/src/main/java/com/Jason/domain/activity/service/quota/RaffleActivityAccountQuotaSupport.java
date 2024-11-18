@@ -1,22 +1,22 @@
-package com.Jason.domain.activity.service;
+package com.Jason.domain.activity.service.quota;
 
 import com.Jason.domain.activity.model.entity.ActivityCountEntity;
 import com.Jason.domain.activity.model.entity.ActivityEntity;
 import com.Jason.domain.activity.model.entity.ActivitySkuEntity;
 import com.Jason.domain.activity.repository.IActivityRepository;
-import com.Jason.domain.activity.service.rule.factory.DefaultActivityChainFactory;
+import com.Jason.domain.activity.service.quota.rule.factory.DefaultActivityChainFactory;
 
 /**
  * @Author: Jason
  * @Date: 2024/11/8 22:18
  * @Description: 抽奖活动支持
  */
-public class RaffleActivitySupport {
+public class RaffleActivityAccountQuotaSupport {
     protected DefaultActivityChainFactory defaultActivityChainFactory;
 
     protected IActivityRepository activityRepository;
 
-    public RaffleActivitySupport(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
+    public RaffleActivityAccountQuotaSupport(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
         this.activityRepository = activityRepository;
         this.defaultActivityChainFactory = defaultActivityChainFactory;
     }

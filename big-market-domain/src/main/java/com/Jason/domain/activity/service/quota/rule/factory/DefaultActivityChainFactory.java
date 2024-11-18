@@ -1,6 +1,6 @@
-package com.Jason.domain.activity.service.rule.factory;
+package com.Jason.domain.activity.service.quota.rule.factory;
 
-import com.Jason.domain.activity.service.rule.IActionChain;
+import com.Jason.domain.activity.service.quota.rule.IActionChain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

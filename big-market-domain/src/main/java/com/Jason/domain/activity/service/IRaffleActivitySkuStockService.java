@@ -7,7 +7,7 @@ import com.Jason.domain.activity.model.valobj.ActivitySkuStockKeyVO;
  * @Date: 2024/11/11 16:55
  * @Description:
  */
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
     /**
      * 获取活动sku库存消耗队列
      *

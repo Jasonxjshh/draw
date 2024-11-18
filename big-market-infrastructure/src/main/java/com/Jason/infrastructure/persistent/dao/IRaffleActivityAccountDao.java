@@ -16,4 +16,12 @@ public interface IRaffleActivityAccountDao {
 
     @DBRouter(key = "userId")
     void insert(RaffleActivityAccount raffleActivityAccount);
+    @DBRouter(key = "userId")
+    RaffleActivityAccount queryActivityAccountByUserId(RaffleActivityAccount raffleActivityAccountReq);
+
+    int updateActivityAccountSubtractionQuota(RaffleActivityAccount build);
+
+    int updateActivityAccountMonthSurplusImageQuota(RaffleActivityAccount build);
+
+    int updateActivityAccountDaySurplusImageQuota(RaffleActivityAccount build);
 }

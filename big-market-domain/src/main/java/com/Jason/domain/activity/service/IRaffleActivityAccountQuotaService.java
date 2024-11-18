@@ -9,15 +9,8 @@ import com.Jason.domain.activity.model.entity.SkuRechargeEntity;
  * @Date: 2024/11/5 21:22
  * @Description: 抽奖活动订单接口
  */
-public interface IRaffleOrder {
+public interface IRaffleActivityAccountQuotaService {
 
-    /**
-     * 以sku创建抽奖活动订单，获得参与抽奖资格（可消耗的次数）
-     *
-     * @param activityShopCartEntity 活动sku实体，通过sku领取活动。
-     * @return 活动参与记录实体
-     */
-    ActivityOrderEntity createRaffleActivityOrder(ActivityShopCartEntity activityShopCartEntity);
 
     /**
      * 创建 sku 账户充值订单，给用户增加抽奖次数
@@ -28,7 +21,7 @@ public interface IRaffleOrder {
      * @param skuRechargeEntity 活动商品充值实体对象
      * @return 活动ID
      */
-    String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+    String createOrder(SkuRechargeEntity skuRechargeEntity);
 
 
 }

@@ -1,8 +1,4 @@
-package com.Jason.domain.activity.service.rule;
-
-import com.Jason.domain.activity.model.entity.ActivityCountEntity;
-import com.Jason.domain.activity.model.entity.ActivityEntity;
-import com.Jason.domain.activity.model.entity.ActivitySkuEntity;
+package com.Jason.domain.activity.service.quota.rule;
 
 /**
  * @Author: Jason

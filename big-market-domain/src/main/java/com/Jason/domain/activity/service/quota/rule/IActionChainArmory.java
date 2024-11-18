@@ -1,6 +1,4 @@
-package com.Jason.domain.activity.service.rule;
-
-import com.Jason.domain.strategy.service.rule.chain.ILogicChain;
+package com.Jason.domain.activity.service.quota.rule;
 
 /**
  * @Author: Jason
