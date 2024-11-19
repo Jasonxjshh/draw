@@ -16,6 +16,7 @@ import com.Jason.infrastructure.persistent.redis.IRedisService;
 import com.Jason.types.common.Constants;
 import com.Jason.types.enums.ResponseCode;
 import com.Jason.types.exception.AppException;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;

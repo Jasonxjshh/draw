@@ -3,6 +3,9 @@ package com.Jason.test.domain.activity;
 import com.Jason.domain.activity.model.entity.SkuRechargeEntity;
 import com.Jason.domain.activity.service.IRaffleActivityAccountQuotaService;
 import com.Jason.domain.activity.service.armory.IActivityArmory;
+import com.Jason.domain.award.model.entity.UserAwardRecordEntity;
+import com.Jason.domain.award.model.valobj.AwardStateVO;
+import com.Jason.domain.award.service.IAwardService;
 import com.Jason.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -30,6 +34,10 @@ public class RaffleActivityAccountQuotaServiceTest {
 
     @Resource
     private IActivityArmory activityArmory;
+
+
+    @Resource
+    private IAwardService awardService;
 
     @Before
     public void setUp() {
@@ -75,5 +83,22 @@ public class RaffleActivityAccountQuotaServiceTest {
         new CountDownLatch(1).await();
     }
 
+    @Test
+    public void test_saveUserAwardRecord() throws InterruptedException {
+        for (int i = 0; i < 100; i++) {
+            UserAwardRecordEntity userAwardRecordEntity = new UserAwardRecordEntity();
+            userAwardRecordEntity.setUserId("Jason");
+            userAwardRecordEntity.setActivityId(100301L);
+            userAwardRecordEntity.setStrategyId(100006L);
+            userAwardRecordEntity.setOrderId(RandomStringUtils.randomNumeric(12));
+            userAwardRecordEntity.setAwardId(101);
+            userAwardRecordEntity.setAwardTitle("OpenAI 增加使用次数");
+            userAwardRecordEntity.setAwardTime(new Date());
+            userAwardRecordEntity.setAwardState(AwardStateVO.create);
+            awardService.saveUserAwardRecord(userAwardRecordEntity);
+            Thread.sleep(500);
+        }
+        new CountDownLatch(1).await();
+    }
 
 }

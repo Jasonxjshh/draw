@@ -13,6 +13,10 @@ import java.util.Date;
 public class Task {
     /** 自增ID */
     private String id;
+    /** 活动ID */
+    private String userId;
+    /** 消息ID */
+    private String messageId;
     /** 消息主题 */
     private String topic;
     /** 消息主体 */

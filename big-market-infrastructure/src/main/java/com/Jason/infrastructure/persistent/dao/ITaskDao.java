@@ -1,6 +1,11 @@
 package com.Jason.infrastructure.persistent.dao;
 
+import cn.bugstack.middleware.db.router.annotation.DBRouter;
+import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
+import com.Jason.infrastructure.persistent.po.Task;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @Author: Jason
@@ -9,4 +14,12 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ITaskDao {
+    @DBRouter
+    void insert(Task task);
+    @DBRouter
+    void updateTaskSendMessageCompleted(Task task);
+    @DBRouter
+    void updateTaskSendMessageFail(Task task);
+
+    List<Task> queryNoSendMessageTaskList();
 }
