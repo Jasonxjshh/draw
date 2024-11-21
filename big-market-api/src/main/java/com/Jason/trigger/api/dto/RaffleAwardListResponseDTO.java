@@ -1,4 +1,4 @@
-package com.Jason.trigger.dto;
+package com.Jason.trigger.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

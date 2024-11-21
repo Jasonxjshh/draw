@@ -6,5 +6,7 @@ package com.Jason.domain.strategy.service.armory;
  * @Description: 策略装配库, 负责初始化策略计算
  */
 public interface IStrategyArmory {
+    boolean assembleLotteryStrategyByActivityId(Long activityId);
+
     boolean assembleLotteryStrategy(Long strategyId);
 }

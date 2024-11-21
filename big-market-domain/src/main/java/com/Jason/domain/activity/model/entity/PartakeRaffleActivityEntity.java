@@ -1,6 +1,8 @@
 package com.Jason.domain.activity.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author: Jason
@@ -8,6 +10,8 @@ import lombok.Data;
  * @Description: 参与抽奖活动实体对象
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PartakeRaffleActivityEntity {
     /**
      * 用户ID
