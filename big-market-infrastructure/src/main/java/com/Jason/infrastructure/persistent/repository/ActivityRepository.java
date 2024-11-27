@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Author: Jason
@@ -214,7 +215,7 @@ public class ActivityRepository implements IActivityRepository {
 
     @Override
     public void activitySkuStockConsumeSendQueue(ActivitySkuStockKeyVO activitySkuStockKeyVO) {
-        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY;
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY + activitySkuStockKeyVO.getSku();
         RBlockingQueue<ActivitySkuStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
         RDelayedQueue<ActivitySkuStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
         delayedQueue.offer(activitySkuStockKeyVO, 3, TimeUnit.SECONDS);
@@ -222,15 +223,15 @@ public class ActivityRepository implements IActivityRepository {
     }
 
     @Override
-    public ActivitySkuStockKeyVO takeQueueValue() {
-        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY;
+    public ActivitySkuStockKeyVO takeQueueValue(Long sku) {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY + sku;
         RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
         return destinationQueue.poll();
     }
 
     @Override
-    public void clearQueueValue() {
-        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY;
+    public void clearQueueValue(Long sku) {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUERY_KEY + sku;
         RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
         destinationQueue.clear();
     }
@@ -451,6 +452,33 @@ public class ActivityRepository implements IActivityRepository {
             activitySkuEntities.add(activitySkuEntity);
         }
         return activitySkuEntities;
+
+    }
+
+    @Override
+    public Integer queryRaffleActivityAccountDayPartakeCount(Long activityId, String userId) {
+        RaffleActivityAccountDay raffleActivityAccountDay = new RaffleActivityAccountDay();
+        raffleActivityAccountDay.setActivityId(activityId);
+        raffleActivityAccountDay.setUserId(userId);
+        raffleActivityAccountDay.setDay(raffleActivityAccountDay.currentDay());
+        Integer dayPartakeCount = raffleActivityAccountDayDao.queryRaffleActivityAccountDayPartakeCount(raffleActivityAccountDay);
+        // 当日未参与抽奖则为0次
+        return null == dayPartakeCount ? 0 : dayPartakeCount;
+
+    }
+
+    @Override
+    public List<Long> querySkuList() {
+        // 优先从缓存获取
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_LIST_KEY;
+        String jsonList = redisService.getValue(cacheKey);
+        List<Long> resultList = JSON.parseArray(jsonList, Long.class);
+        if (null != jsonList && null != resultList && !resultList.isEmpty()) return resultList;
+        // 从库中获取数据
+        List<RaffleActivitySku> raffleActivitySkus = raffleActivitySkuDao.querySkuList();
+        resultList = raffleActivitySkus.stream().map(RaffleActivitySku::getSku).collect(Collectors.toList());
+        redisService.setValue(cacheKey, JSON.toJSONString(resultList));
+        return resultList;
 
     }
 

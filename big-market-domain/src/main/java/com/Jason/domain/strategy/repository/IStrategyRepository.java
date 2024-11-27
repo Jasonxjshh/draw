@@ -8,8 +8,10 @@ import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.Jason.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Jason
@@ -45,6 +47,8 @@ public interface IStrategyRepository {
 
     Boolean subtractionAwardStock(String cacheKey);
 
+    Boolean subtractionAwardStock(String cacheKey, Date endDateTime);
+
     void awardStockConsumeSendQueue(StrategyAwardStockKeyVO build);
 
     StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException;
@@ -56,4 +60,6 @@ public interface IStrategyRepository {
     Long queryStrategyIdByActivityId(Long activityId);
 
     Integer queryTodayUserRaffleCount(String userId, Long strategyId);
+
+    Map<String, Integer> queryAwardRuleLockCount(String[] treeIds);
 }

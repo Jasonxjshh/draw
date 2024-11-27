@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @Author: Jason
@@ -56,7 +57,7 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy{
         }
 
         // 3. 规则树抽奖过滤【奖品ID，会根据抽奖次数判断、库存判断、兜底兜里返回最终的可获得奖品信息】
-        DefaultTreeFactory.StrategyAwardVO treeStrategyAwardVO = raffleLogicTree(userId, strategyId, chainStrategyAwardVO.getAwardId());
+        DefaultTreeFactory.StrategyAwardVO treeStrategyAwardVO = raffleLogicTree(userId, strategyId, chainStrategyAwardVO.getAwardId(), raffleFactor.getEndDateTime());
         log.info("抽奖策略计算-规则树 {} {} {} {}", userId, strategyId, treeStrategyAwardVO.getAwardId(), treeStrategyAwardVO.getAwardRuleValue());
 
         // 4. 返回抽奖结果
@@ -135,4 +136,16 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy{
      * @return 过滤结果【奖品ID，会根据抽奖次数判断、库存判断、兜底兜里返回最终的可获得奖品信息】
      */
     public abstract DefaultTreeFactory.StrategyAwardVO raffleLogicTree(String userId, Long strategyId, Integer awardId);
+
+    /**
+     * 抽奖结果过滤，决策树抽象方法
+     *
+     * @param userId      用户ID
+     * @param strategyId  策略ID
+     * @param awardId     奖品ID
+     * @param endDateTime 活动结束时间 - 用于设定缓存有效期
+     * @return 过滤结果【奖品ID，会根据抽奖次数判断、库存判断、兜底兜里返回最终的可获得奖品信息】
+     */
+    public abstract DefaultTreeFactory.StrategyAwardVO raffleLogicTree(String userId, Long strategyId, Integer awardId, Date endDateTime);
+
 }
