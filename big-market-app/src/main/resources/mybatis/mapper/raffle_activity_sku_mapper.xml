@@ -18,7 +18,6 @@
         where sku = #{sku}
     </select>
 
-
     <update id="updateActivitySkuStock" parameterType="java.lang.Long">
         update raffle_activity_sku
         set stock_count_surplus = stock_count_surplus - 1, update_time = now()
@@ -32,14 +31,7 @@
     </update>
 
     <select id="queryActivitySkuListByActivityId" parameterType="java.lang.Long" resultMap="dataMap">
-        select sku, activity_id, activity_count_id, stock_count, stock_count_surplus
-        from raffle_activity_sku
-        where activity_id = #{activityId}
-    </select>
-
-    <select id="querySkuList" resultMap="dataMap">
-        select sku
-        from raffle_activity_sku
+        select sku, activity_count_id, stock_count, stock_count_surplus from raffle_activity_sku where activity_id = #{activityId}
     </select>
 
 </mapper>
