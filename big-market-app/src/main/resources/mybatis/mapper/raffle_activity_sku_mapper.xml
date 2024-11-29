@@ -34,4 +34,10 @@
         select sku, activity_count_id, stock_count, stock_count_surplus from raffle_activity_sku where activity_id = #{activityId}
     </select>
 
+
+    <select id="querySkuList" resultMap="dataMap">
+        select sku
+        from raffle_activity_sku
+    </select>
+
 </mapper>
