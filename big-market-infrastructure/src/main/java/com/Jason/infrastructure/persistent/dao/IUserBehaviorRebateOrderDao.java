@@ -2,8 +2,11 @@ package com.Jason.infrastructure.persistent.dao;
 
 import cn.bugstack.middleware.db.router.annotation.DBRouter;
 import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
+import com.Jason.domain.rebate.model.entity.BehaviorRebateOrderEntity;
 import com.Jason.infrastructure.persistent.po.UserBehaviorRebateOrder;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @Author: Jason
@@ -16,4 +19,7 @@ public interface IUserBehaviorRebateOrderDao {
 
     @DBRouter
     Integer insert(UserBehaviorRebateOrder userBehaviorRebateOrder);
+
+    @DBRouter
+    List<UserBehaviorRebateOrder> queryOrderByOutBusinessNo(UserBehaviorRebateOrder userBehaviorRebateOrder);
 }

@@ -2,6 +2,8 @@ package com.Jason.test.trigger;
 
 import com.Jason.domain.activity.service.armory.IActivityArmory;
 import com.Jason.trigger.api.IRaffleActivityService;
+import com.Jason.trigger.api.dto.UserActivityAccountRequestDTO;
+import com.Jason.trigger.api.dto.UserActivityAccountResponseDTO;
 import com.Jason.types.model.Response;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -41,4 +43,24 @@ public class RaffleActivityControllerTest {
         log.info("测试结果：{}", JSON.toJSONString(response));
         new CountDownLatch(1).await();
     }
+
+    @Test
+    public void test_isCalendarSignRebate() {
+        Response<Boolean> response = raffleActivityService.isCalendarSignRebate("Jason");
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
+    @Test
+    public void test_queryUserActivityAccount() {
+        UserActivityAccountRequestDTO request = new UserActivityAccountRequestDTO();
+        request.setActivityId(100301L);
+        request.setUserId("Jason");
+
+        // 查询数据
+        Response<UserActivityAccountResponseDTO> response = raffleActivityService.queryUserActivityAccount(request);
+
+        log.info("请求参数：{}", JSON.toJSONString(request));
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
 }

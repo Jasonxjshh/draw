@@ -53,5 +53,9 @@ public interface IActivityRepository {
     Integer queryRaffleActivityAccountDayPartakeCount(Long activityId, String userId);
 
     List<Long> querySkuList();
+
+    ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId);
+
+    Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
 }
 

@@ -1,5 +1,6 @@
 package com.Jason.domain.activity.service;
 
+import com.Jason.domain.activity.model.entity.ActivityAccountEntity;
 import com.Jason.domain.activity.model.entity.ActivityOrderEntity;
 import com.Jason.domain.activity.model.entity.ActivityShopCartEntity;
 import com.Jason.domain.activity.model.entity.SkuRechargeEntity;
@@ -25,5 +26,9 @@ public interface IRaffleActivityAccountQuotaService {
 
 
     Integer queryRaffleActivityAccountDayPartakeCount(Long activityId, String userId);
+
+    ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId);
+
+    Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
 }
 

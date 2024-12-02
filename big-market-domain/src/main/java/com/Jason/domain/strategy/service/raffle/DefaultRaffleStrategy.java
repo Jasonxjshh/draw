@@ -4,10 +4,7 @@ import com.Jason.domain.strategy.model.entity.RaffleFactorEntity;
 import com.Jason.domain.strategy.model.entity.RuleActionEntity;
 import com.Jason.domain.strategy.model.entity.RuleMatterEntity;
 import com.Jason.domain.strategy.model.entity.StrategyAwardEntity;
-import com.Jason.domain.strategy.model.vo.RuleLogicCheckTypeVO;
-import com.Jason.domain.strategy.model.vo.RuleTreeVO;
-import com.Jason.domain.strategy.model.vo.StrategyAwardRuleModelVO;
-import com.Jason.domain.strategy.model.vo.StrategyAwardStockKeyVO;
+import com.Jason.domain.strategy.model.vo.*;
 import com.Jason.domain.strategy.service.AbstractRaffleStrategy;
 import com.Jason.domain.strategy.service.IRaffleAward;
 import com.Jason.domain.strategy.service.IRaffleRule;
@@ -38,8 +35,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleStock, IRaffleAward, IRaffleRule {
-
-
 
 
     @Override
@@ -92,5 +87,16 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRa
     @Override
     public Map<String, Integer> queryAwardRuleLockCount(String[] treeIds) {
         return repository.queryAwardRuleLockCount(treeIds);
+    }
+
+    @Override
+    public List<RuleWeightVO> queryAwardRuleWeightByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return queryAwardRuleWeight(strategyId);
+
+    }
+
+    private List<RuleWeightVO> queryAwardRuleWeight(Long strategyId) {
+        return repository.queryAwardRuleWeight(strategyId);
     }
 }

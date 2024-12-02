@@ -1,5 +1,6 @@
 package com.Jason.infrastructure.persistent.dao;
 
+import com.Jason.domain.rebate.model.entity.BehaviorRebateOrderEntity;
 import com.Jason.infrastructure.persistent.po.DailyBehaviorRebate;
 import org.apache.ibatis.annotations.Mapper;
 

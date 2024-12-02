@@ -1,6 +1,7 @@
 package com.Jason.domain.rebate.repository;
 
 import com.Jason.domain.rebate.model.aggregate.BehaviorRebateAggregate;
+import com.Jason.domain.rebate.model.entity.BehaviorRebateOrderEntity;
 import com.Jason.domain.rebate.model.valobj.BehaviorTypeVO;
 import com.Jason.domain.rebate.model.valobj.DailyBehaviorRebateVO;
 
@@ -17,4 +18,5 @@ public interface IBehaviorRebateRepository {
 
     void saveUserRebateRecord(String userId, List<BehaviorRebateAggregate> behaviorRebateAggregates);
 
+    List<BehaviorRebateOrderEntity> queryOrderByOutBusinessNo(String userId, String outBusinessNo);
 }

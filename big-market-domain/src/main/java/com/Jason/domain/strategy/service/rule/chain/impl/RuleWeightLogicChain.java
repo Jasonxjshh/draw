@@ -27,8 +27,6 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
     @Resource
     private IStrategyDispatch strategyDispatch;
 
-    //模拟用户积分
-    public Long userScore = 4500L;
 
     @Override
     public DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId) {
@@ -41,6 +39,8 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
         }
         List<Long> analyticalSortedKeys = new ArrayList<>(analyticalValueGroup.keySet());
         Collections.sort(analyticalSortedKeys);
+
+        Integer userScore = repository.queryActivityAccountTotalUseCount(userId, strategyId);
 
         //找出最小的符合积分的值 也就是【4500 积分，能找到 4000:102,103,104,105】、【5000 积分，能找到 5000:102,103,104,105,106,107】
         Long nextValue = analyticalSortedKeys.stream()
