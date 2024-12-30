@@ -50,8 +50,12 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
                 .orElse(null);
 
         if (nextValue != null) {
+            Integer awardId = strategyDispatch.getRandomAwardId(strategyId, analyticalValueGroup.get(nextValue));
             log.info("抽奖责任链---抽奖权重接管：userId: {} strategyId: {} ruleModel: {} ruleValue: {}", userId, strategyId, ruleModel(), analyticalValueGroup.get(nextValue));
-            return new DefaultChainFactory.StrategyAwardVO(strategyDispatch.getRandomAwardId(strategyId, analyticalValueGroup.get(nextValue)), ruleModel());
+            return DefaultChainFactory.StrategyAwardVO.builder()
+                    .awardId(awardId)
+                    .logicModel(ruleModel())
+                    .build();
         }
         log.info("抽奖责任链---抽奖权重放行：userId: {} strategyId: {} ruleModel: {}", userId, strategyId, ruleModel());
         return next().logic(userId, strategyId);

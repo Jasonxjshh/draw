@@ -2,6 +2,7 @@ package com.Jason.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -11,6 +12,11 @@ import java.util.Date;
  */
 @Data
 public class RaffleActivitySku {
+
+    /**
+     * 自增ID
+     */
+    private Long id;
     /**
      * 商品sku
      */
@@ -31,6 +37,10 @@ public class RaffleActivitySku {
      * 剩余库存
      */
     private Integer stockCountSurplus;
+    /**
+     * 商品金额【积分】
+     */
+    private BigDecimal productAmount;
     /**
      * 创建时间
      */

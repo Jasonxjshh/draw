@@ -32,7 +32,12 @@ public class BlackListLogicChain extends AbstractLogicChain {
         for (String blackUserID : blackUserIDs) {
             if (userId.equals(blackUserID)) {
                 log.info("抽奖责任链---黑名单接管：userId: {} strategyId: {} ruleModel: {} awardId: {}", userId, strategyId, ruleModel(), awardId);
-                return new DefaultChainFactory.StrategyAwardVO(awardId, ruleModel());
+                return DefaultChainFactory.StrategyAwardVO.builder()
+                        .awardId(awardId)
+                        .logicModel(ruleModel())
+                        // 写入默认配置黑名单奖品值 0.01 ~ 1 积分，也可以配置到数据库表中
+                        .awardRuleValue("0.01,1")
+                        .build();
             }
         }
         log.info("抽奖责任链---黑名单放行：userId: {} strategyId: {} ruleModel: {} awardId: {}", userId, strategyId, ruleModel(), awardId);

@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface IUserAwardRecordDao {
     @DBRouter
     void insert(UserAwardRecord userAwardRecord);
+
+    int updateAwardRecordCompletedState(UserAwardRecord userAwardRecordReq);
 }

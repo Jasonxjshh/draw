@@ -5,21 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @Author: Jason
- * @Date: 2024/11/5 21:03
- * @Description: 活动购物车实体对象
- */
+import java.math.BigDecimal;
+
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityShopCartEntity {
+public class UnpaidActivityOrderEntity {
 
-    /** 用户ID */
+    // 用户ID
     private String userId;
-    /** 商品SKU - activity + activity count */
-    private Long sku;
+    // 订单ID
+    private String orderId;
+    // 外部透传ID
+    private String outBusinessNo;
+    // 订单金额
+    private BigDecimal payAmount;
 
 }
-

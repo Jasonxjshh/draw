@@ -1,6 +1,6 @@
 package com.Jason.domain.activity.service;
 
-import com.Jason.domain.activity.model.entity.ActivityShopCartEntity;
+
 import com.Jason.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import com.Jason.domain.activity.model.entity.UserRaffleOrderEntity;
 
